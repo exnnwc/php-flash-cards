@@ -1,0 +1,1 @@
+# PHP Flash Cards \n This is basically a project that makes a comma-separated list using get_defined_function() and then scraping the php.net manual website to get the relevant information about it. \n After it's created the comma-separated list, it's ready to be made into Anki flash cards.
