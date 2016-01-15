@@ -27,24 +27,29 @@ if (!isset($_GET['id'])) {
   echo "<div><a target='_blank' href='$function_url'>$arr[$id]</a></div>";
  */
 
+$file = fopen("test.csv", "w");
 
 $fields = [];
 
-for ($i = 0; $i < 1; $i++) {
+for ($i = 0; $i < 10; $i++) {
     $id = rand(0, sizeof($arr));
     $function_url = "http://php.net/manual/en/function." . str_replace("_", "-", $arr[$id]) . ".php";
-    if ($html = file_get_html($function_url)) {        
-        $fields[]["name"] = $arr[$id];
+    if ($html = file_get_html($function_url)) {
+        $name = $arr[$id];
         foreach (get_defined_constants(true)["user"] as $key => $value) {
             if (!in_array(substr($key, 0, 4), $invalid_keys)) {
                 foreach ($html->find(constant($key)) as $element)
-
                     $string = $string . nl2br(preg_replace("/[<>]/", "", preg_replace("/\W$arr[$id]\W/", "", strip_tags(preg_replace($EOL, "\n", preg_replace("</p>", "\n", $element->innertext)))))) . "<BR>";
             }
         }
-        $fields[]["info"] = $string;
+        $info = $string;
     } else {
         $i--;
     }
+    fwrite($file, "\"$name\", \"$info\" \n");
 }
-var_dump($fields);
+
+        
+        
+
+fclose($file);
