@@ -7,7 +7,6 @@ define("DESCRIPTION", "div.description");
 define("PARAMETERS", "div.parameters");
 define("RETURN", "div.returnvalues");
 $invalid_keys = ["HDOM", "DEFA", "MAX_"];
-$EOL = ["</div>", "</h3>", "</dt>", "</dd>"];
 $string = "";
 $arr = get_defined_functions()["internal"];
 sort($arr);
@@ -27,7 +26,7 @@ if (!isset($_GET['id'])) {
   echo "<div><a target='_blank' href='$function_url'>$arr[$id]</a></div>";
  */
 
-//$file = fopen("test.csv", "w");
+$file = fopen("shit.txt", "w");
 
 $fields = [];
 error_reporting(E_ALL &  ~E_WARNING);
@@ -42,12 +41,12 @@ for ($i = 0; $i < 3; $i++) {
         foreach (get_defined_constants(true)["user"] as $key => $value) {
             if (!in_array(substr($key, 0, 4), $invalid_keys)) {
                 foreach (pq(constant($key)) as $element)
-                    $string = $string . nl2br(preg_replace("/[<>]/", "", preg_replace("/\W$arr[$id]\W/", "", strip_tags(preg_replace($EOL, "\n", preg_replace("</p>", "\n", $element->textContent)))))) . "<BR>";
+                    $string = $string .  process_string($element->textContent, $name) ;       
             } 
         } 
         $info = $string;
 	echo "<span style='font-weight:bold'>$arr[$id]</span> <BR> $info";
-  //  fwrite($file, "\"$name\", \"$info\" \n");
+    fwrite($file, "\"$name\", \"$info\" \n");
     } else {
 	echo "<BR>$arr[$id] - $function_url<BR>";
         $i--;
@@ -57,4 +56,32 @@ for ($i = 0; $i < 3; $i++) {
         
         
 
-//fclose($file);
+fclose($file);
+
+function process_string($string, $name){
+$EOL = ["</div>", "</h3>", "</dt>", "</dd>", "</p>"];
+$bold_words=["Description", "Parameters", "Return Values"];
+$delete = ["/[<>]/","/\W$name\W/"];
+$string=  
+  nl2br(
+      preg_replace($delete, "", 
+	strip_tags(
+	    preg_replace($EOL, "\n", 
+	      $string))));
+
+for ($i=0;$i<10;$i++){
+//	$string=$string."YO";
+//	$string=str_replace("<br />", "SHIT", $string);
+}
+foreach ($bold_words as $bold_word){
+	$string=str_replace("$bold_word", "<span style='font-weight:bold'>$bold_word</span>", $string);
+}
+
+//$string=htmlspecialchars($string);
+return $string;
+
+
+}
+
+function show_html(){
+}
