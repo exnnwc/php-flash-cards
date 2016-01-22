@@ -62,16 +62,17 @@ function process_string($string, $name){
 $EOL = ["</div>", "</h3>", "</dt>", "</dd>", "</p>"];
 $bold_words=["Description", "Parameters", "Return Values"];
 $delete = ["/[<>]/","/\W$name\W/"];
+$newline_trim=["SHITSHIT"];
 $string=  
-  nl2br(
-      preg_replace($delete, "", 
-	strip_tags(
+  preg_replace("//", "SWAG",
+    str_replace("SHITSHIT", "SHIT",
+      str_replace("\n", "SHIT",
+        preg_replace($delete, "", 
+          strip_tags(
 	    preg_replace($EOL, "\n", 
-	      $string))));
+	      $string))))));
 
 for ($i=0;$i<10;$i++){
-//	$string=$string."YO";
-//	$string=str_replace("<br />", "SHIT", $string);
 }
 foreach ($bold_words as $bold_word){
 	$string=str_replace("$bold_word", "<span style='font-weight:bold'>$bold_word</span>", $string);

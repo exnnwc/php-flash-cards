@@ -1,0 +1,3 @@
+"addslashes", "" 
+"bzopen", "" 
+"stream_socket_pair", "" 
