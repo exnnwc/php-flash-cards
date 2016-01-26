@@ -64,7 +64,7 @@ $bold_words=["Description", "Parameters", "Return Values"];
 $delete = ["/[<>]/","/\W$name\W/"];
 $newline_trim=["SHITSHIT"];
 $string=  
-  preg_replace("//", "SWAG",
+  preg_replace("/SHIT\s+SHIT/", " ",
     str_replace("SHITSHIT", "SHIT",
       str_replace("\n", "SHIT",
         preg_replace($delete, "", 
